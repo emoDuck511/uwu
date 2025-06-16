@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>uwu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #121212;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #eee;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+
+  h1 {
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 2.4rem;
+    letter-spacing: 1.5px;
+  }
+
+  #heart {
+    font-size: 6rem;
+    cursor: pointer;
+    color: #ff466c;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+    user-select: none;
+  }
+
+  #heart:hover {
+    transform: scale(1.2);
+    text-shadow:
+      0 0 10px #7CFC00,   /* LawnGreen */
+      0 0 20px #32CD32AA, /* LimeGreen with transparency */
+      0 0 30px #228B2288; /* ForestGreen with more transparency */
+  }
+
+  #heart:active {
+    transform: scale(0.95);
+  }
+
+  #message {
+    margin-top: 25px;
+    font-weight: 300;
+    font-size: 1.2rem;
+    min-height: 3.5em;
+    max-width: 360px;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  #message.visible {
+    opacity: 1;
+  }
+
+  #footer {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    opacity: 0.5;
+  }
+
+  #form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    background: #1e1e1e;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+  }
+
+  input[type="text"]::placeholder {
+    color: #888;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff466c;
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #ff244f;
+  }
+
+  #sent {
+    font-size: 0.9rem;
+    color: #77ff99;
+    margin-top: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #sent.visible {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<h1>hello ananya!!!!!! I HOPE YUORE OKAY!!!!</h1>
+
+<div id="heart" aria-label="click uwu" role="button" tabindex="0">🐸</div>
+
+<div id="message"></div>
+
+<form action="https://formspree.io/f/mdkzzpyy" method="POST" id="form">
+  <input type="text" name="message" placeholder="say something to me???????" required />
+  <button type="submit">Send</button>
+  <div id="sent">message sent!</div>
+</form>
+
+<div id="footer">UWUWUWUWU😘UWUWWUU😘</div>
+
+<script>
+  const messages = [
+    "youre so cute",
+    "your nose is like a mango",
+    "i like how you walk",
+    "youre so good at solving puzzles",
+    "i wish youre doing okay",
+    "YOURE SO FINE",
+    "when do i meet you next ;-;",
+    "i like your texts as much as i like seeing you if not more",
+    "what would you be if you were a vegetable????",
+    "a cute-cumber",
+    "(im sorry that was so jsandkjas)",
+    "youre so alive, its not nice to think so much sometimes",
+    "you will always have my love",
+    "i would sit on the edge of your sadness just to keep you company",
+    "every time you hesitate before saying something, i wish you knew you’re always safe with me",
+    "i wish you saw yourself the way i do when you’re just being you — honest, brilliant, wannabe16",
+    "you make my silence even better smh",
+    "i like it SO MUCH when you laugh",
+    "i saw your pinterst hahahahhhaha",
+    "you saying 'lick me' still scares me sometimes",
+    "if you were a file, you’d be called ananya.exe and crash all my logic",
+    "I ABSOLUTELY LIKE YOUR COWBOY SO MUCH :PRAY:",
+    "i hope you tetx me more",
+    "you smile and i forget how to spell my name but everything else starts to make sense",
+    "i want to play ludo with you",
+    "the moon gets jealous when you hug me",
+    "evara is a nice name smh",
+    "please tell me anything you want to tell me.",
+    "if you were a fruit, you'd be a fineapple. if i was a vegetable, i’d be depressed without you.",
+    "i like your hands more than i should",
+    "i really like the idea of growing together.",
+    "i will always be there for you. even if you hurt me.",
+    "i like you even more when youre being difficult",
+    "you’re the only person i’d share my icecreams with. and maybe my passwords.",
+    "i like the scar thingy(?) on your leg",
+    "i hope you never forget me.",
+    "will i never see your parents again :skull:",
+    "are you pinterest, because i have all my interest pinned in you",
+    "I LISTENED TO AAKASHVANI TODAY AHHAHAHAHAHA",
+    "if i should follow my dreams, can i follow you home next time?????",
+    "i could always listen to you than bear your silence.",
+    "you have shaped me as a person more than you can imagine.",
+    "i think if you were to punch me, it would hurt, but like, happily",
+    "i like your soft voice too",
+    "i hope we both have enough time.",
+    "when are we watchng obs :pray:",
+    "i really miss some days, the painting one, the final destination one, THE COWBOY",
+    "when we first kissed, i was so LOST(?) I REALISED WHAT I WAS DOING AFTER 5 MINUTES",
+    "i still remember the first day when you wer being so idk smh",
+    "are you a loan from a bank? because you got my interest.",
+    "im grateful for you."
+  ];
+
+  const heart = document.getElementById('heart');
+  const message = document.getElementById('message');
+  const sent = document.getElementById('sent');
+  const form = document.getElementById('form');
+
+  let index = 0;
+  let timeoutId = null;
+
+  function showMessage() {
+    message.textContent = messages[index];
+    message.classList.add('visible');
+
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      message.classList.remove('visible');
+    }, 8000);
+
+    index = (index + 1) % messages.length;
+  }
+
+  heart.addEventListener('click', showMessage);
+  heart.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      showMessage();
+    }
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        sent.classList.add('visible');
+        form.reset();
+        setTimeout(() => {
+          sent.classList.remove('visible');
+        }, 2000);
+      } else {
+        sent.textContent = "Something went wrong.";
+        sent.style.color = "#ff7272";
+        sent.classList.add('visible');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
