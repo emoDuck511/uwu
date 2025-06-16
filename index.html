@@ -19,6 +19,8 @@
     font-family: 'Poppins', sans-serif;
     text-align: center;
     padding: 20px;
+    position: relative;
+    overflow: hidden; /* keep stars inside */
   }
 
   h1 {
@@ -26,6 +28,8 @@
     margin-bottom: 15px;
     font-size: 2.4rem;
     letter-spacing: 1.5px;
+    position: relative; /* to be above stars */
+    z-index: 2;
   }
 
   #heart {
@@ -34,6 +38,8 @@
     color: #ff466c;
     transition: transform 0.3s ease, text-shadow 0.3s ease;
     user-select: none;
+    position: relative;
+    z-index: 2;
   }
 
   #heart:hover {
@@ -57,6 +63,8 @@
     line-height: 1.4;
     opacity: 0;
     transition: opacity 0.5s ease;
+    position: relative;
+    z-index: 2;
   }
 
   #message.visible {
@@ -67,6 +75,8 @@
     margin-top: 40px;
     font-size: 0.9rem;
     opacity: 0.5;
+    position: relative;
+    z-index: 2;
   }
 
   #form {
@@ -77,6 +87,8 @@
     gap: 10px;
     max-width: 320px;
     width: 100%;
+    position: relative;
+    z-index: 2;
   }
 
   input[type="text"] {
@@ -120,6 +132,22 @@
   #sent.visible {
     opacity: 1;
   }
+
+  /* Star styles */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 3s infinite ease-in-out;
+    box-shadow: 0 0 6px 2px white;
+    z-index: 1; /* behind content */
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.2; }
+  }
 </style>
 </head>
 <body>
@@ -136,7 +164,7 @@
   <div id="sent">message sent!</div>
 </form>
 
-<div id="footer">UWWUWUUWUWWUU😘WUUWUWU PRESS THE FROG UWUWUWUWU😘UWUWWUU😘</div>
+<div id="footer">UWUWUWUWU😘UWUWWUU😘</div>
 
 <script>
   const messages = [
@@ -245,6 +273,26 @@
       }
     });
   });
+
+  // Star animation code
+  const starCount = 50;
+
+  function createStar() {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = Math.random() * 3 + 1; // 1-4px
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.top = Math.random() * 100 + 'vh';
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    star.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(star);
+  }
+
+  for (let i = 0; i < starCount; i++) {
+    createStar();
+  }
 </script>
 
 </body>
