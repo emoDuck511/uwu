@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(to bottom, #1c1c2e, #3d3d5c); /* index page gradient */
+    background: linear-gradient(to bottom, #1c1c2e, #3d3d5c); 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +28,7 @@
     margin-bottom: 15px;
     font-size: 2.4rem;
     letter-spacing: 1.5px;
-    position: relative; /* to be above stars */
+    position: relative; 
     z-index: 2;
   }
 
@@ -45,9 +45,9 @@
   #heart:hover {
     transform: scale(1.2);
     text-shadow:
-      0 0 10px #7CFC00,   /* LawnGreen */
-      0 0 20px #32CD32AA, /* LimeGreen with transparency */
-      0 0 30px #228B2288; /* ForestGreen with more transparency */
+      0 0 10px #7CFC00,
+      0 0 20px #32CD32AA, 
+      0 0 30px #228B2288;
   }
 
   #heart:active {
@@ -96,7 +96,7 @@
     padding: 10px 15px;
     border-radius: 8px;
     border: none;
-    background: #2a2a44;  /* slightly lighter dark to match index style */
+    background: #2a2a44; 
     color: #f3f3f3;
     font-size: 1rem;
     outline: none;
@@ -133,15 +133,14 @@
     opacity: 1;
   }
 
-  /* Star styles */
   .star {
     position: absolute;
     background: white;
     border-radius: 50%;
     opacity: 0.5;
     animation: twinkle 3s infinite ease-in-out;
-    box-shadow: 0 0 3px 1px white;  /* smaller glow */
-    z-index: 1; /* behind content */
+    box-shadow: 0 0 3px 1px white; 
+    z-index: 1; 
   }
 
   @keyframes twinkle {
@@ -281,13 +280,12 @@
     });
   });
 
-  // Star animation code
   const starCount = 50;
 
   function createStar() {
     const star = document.createElement('div');
     star.classList.add('star');
-    const size = Math.random() * 1.5 + 0.5; // smaller: 0.5 - 2px
+    const size = Math.random() * 1.5 + 0.5;
     star.style.width = size + 'px';
     star.style.height = size + 'px';
     star.style.top = Math.random() * 100 + 'vh';
