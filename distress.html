@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>distress form</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      background: #0b0c13; /* very dark navy/black */
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #222; /* dark text on light form */
+      user-select: none;
+      overflow: hidden;
+      /* subtle starry texture */
+      background-image:
+        radial-gradient(circle at 20% 30%, #575e73 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, #575e73 1.5px, transparent 1.5px);
+      background-size: 60px 60px;
+      background-repeat: repeat;
+    }
+
+    #container {
+      background: rgba(250, 250, 250, 0.9); /* very light and transparent */
+      border-radius: 28px;
+      box-shadow: 0 12px 48px rgba(100, 100, 150, 0.4);
+      width: 420px;  /* a bit bigger than before */
+      max-width: 90vw;
+      padding: 30px 36px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      border: 1.8px solid rgba(150, 150, 180, 0.3);
+      color: #222222;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #3a3a3a;
+      text-shadow: 0 0 5px #99999944;
+    }
+
+    .step {
+      display: none;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Emoji options for Step 1 */
+    .emoji-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .emoji-button {
+      background: #ddd;
+      border: 2.5px solid transparent;
+      border-radius: 50%;
+      font-size: 2.8rem;
+      width: 62px;
+      height: 62px;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      color: #555;
+      box-shadow: 0 0 6px #ccc;
+    }
+
+    .emoji-button:hover {
+      background: #bbb;
+      box-shadow: 0 0 15px #aaa;
+    }
+
+    .emoji-button.selected {
+      border-color: #5b4b90;
+      background: #a7a1c1;
+      box-shadow: 0 0 18px #5b4b90cc;
+      color: #2b2541;
+      font-weight: 700;
+    }
+
+    /* Slider style for Step 2 */
+    .slider-container {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 12px;
+      border-radius: 7px;
+      background: #ccc;
+      outline: none;
+      margin-top: 10px;
+      cursor: pointer;
+      box-shadow: inset 0 0 8px #bbb;
+      transition: background 0.3s ease;
+    }
+    input[type=range]:hover {
+      background: #b4aee0;
+      box-shadow: inset 0 0 12px #8e88c4;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      background: #5b4b90;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+      box-shadow: 0 0 10px #5b4b90cc;
+      transition: background 0.3s ease;
+      margin-top: -9px;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      background: #5b4b90;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+      box-shadow: 0 0 10px #5b4b90cc;
+      transition: background 0.3s ease;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      color: #666;
+      font-weight: 600;
+    }
+
+    /* Step 3 and 4 - option chips */
+    .option-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      background: #ddd;
+      border-radius: 28px;
+      padding: 12px 22px;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+      color: #444;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px #bbb;
+      text-shadow: none;
+    }
+
+    .chip:hover {
+      background: #b0aee0;
+      box-shadow: 0 6px 16px #7e78b7cc;
+      color: #2b2541;
+    }
+
+    .chip.selected {
+      background: #5b4b90;
+      color: #eee;
+      box-shadow: 0 8px 24px #5b4b90cc;
+      font-weight: 700;
+      text-shadow: none;
+    }
+
+    /* Step 5 - Textarea */
+    textarea {
+      width: 100%;
+      height: 90px;
+      border-radius: 20px;
+      border: 2.5px solid #b0aee0;
+      padding: 14px 18px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      resize: vertical;
+      color: #222;
+      background: #f5f4ff;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+      margin-top: 16px;
+      box-shadow: inset 0 0 12px #c0bbe9;
+    }
+
+    textarea::placeholder {
+      color: #a69fbb;
+      font-style: italic;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #5b4b90;
+      box-shadow: 0 0 16px #5b4b90cc;
+      background: #e6e5fb;
+    }
+
+    /* Navigation buttons */
+    #nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 32px;
+    }
+    button.nav-btn {
+      background: #b0aee0;
+      border: none;
+      border-radius: 16px;
+      color: #2b2541;
+      font-weight: 700;
+      padding: 12px 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 12px #7e78b7cc;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    button.nav-btn:hover:not(:disabled) {
+      background: #5b4b90;
+      color: #f0ebff;
+      box-shadow: 0 7px 18px #5b4b90cc;
+    }
+    button.nav-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    /* Progress text */
+    #progress-text {
+      margin-top: 18px;
+      font-size: 1rem;
+      text-align: center;
+      color: #999;
+      user-select: none;
+      font-weight: 600;
+    }
+
+    /* Confirmation message */
+    #confirmation {
+      text-align: center;
+      color: #509950;
+      font-weight: 700;
+      margin-top: 24px;
+      font-size: 1.3rem;
+      display: none;
+      user-select: none;
+    }
+
+    /* Submit button for last step */
+    #submit-btn {
+      width: 100%;
+      margin-top: 24px;
+      background: #5b4b90;
+      border: none;
+      border-radius: 20px;
+      color: #f0ebff;
+      font-weight: 800;
+      padding: 14px 0;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 10px 28px #5b4b90cc;
+      user-select: none;
+      transition: background 0.3s ease;
+      display: none;
+    }
+    #submit-btn:hover {
+      background: #423767;
+    }
+    #submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    #intro-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0b0c13;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeOutScreen 3.5s ease 1.2s forwards;
+}
+
+#intro-text {
+  color: #f0ebff;
+  font-size: 2.2rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 0 24px #5b4b90cc;
+  line-height: 1.4;
+  opacity: 0;
+  animation: fadeInText 1.2s ease forwards;
+}
+
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutScreen {
+  to {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+
+/* hide form initially */
+#container {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+
+
+  </style>
+</head>
+<body>
+<div id="intro-screen">
+  <div id="intro-text">this place is just for you.<br />tell me anything you want</div>
+</div>
+
+  <div id="container" role="main" aria-live="polite" aria-label="comfort corner distress check-in">
+
+    <!-- Step 1: Mood -->
+    <section class="step active" data-step="1" aria-label="Step 1: how are you feeling?">
+      <h2>how are you</h2>
+      <div class="emoji-options" role="radiogroup" aria-describedby="mood-desc">
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Angry, mad" data-value="angry">💢</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Sad" data-value="sad">😔</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Neutral" data-value="neutral">😶</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Disappointed" data-value="disappointed">😞</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Crying" data-value="crying">😭</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Drained" data-value="drained">😫</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Frustrated" data-value="drool">🤤</button>
+        <button type="button" class="emoji-button" aria-checked="false" role="radio" aria-label="Cuddly" data-value="happy">🥰</button>
+      </div>
+    </section>
+
+    <!-- Step 2: Intensity -->
+    <section class="step" data-step="2" aria-label="Step 2: how much?">
+      <h2>how heavy is it? slide me →</h2>
+      <div class="slider-container">
+        <input type="range" id="intensity" name="intensity" min="0" max="10" step="1" value="5" aria-valuemin="0" aria-valuemax="10" aria-valuenow="5" aria-label="Intensity slider" />
+        <div class="slider-labels">
+          <span>tiny sting</span>
+          <span>a lot</span>
+          <span>too much</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: What's This About? -->
+    <section class="step" data-step="3" aria-label="Step 3: what is this about?">
+      <h2>what does this relate to?</h2>
+      <div class="option-chips" role="list" aria-multiselectable="false" aria-describedby="step3-desc">
+        <button type="button" class="chip" data-value="communication" role="option" aria-selected="false">Communication</button>
+        <button type="button" class="chip" data-value="us" role="option" aria-selected="false">YOU</button>
+        <button type="button" class="chip" data-value="myself" role="option" aria-selected="false">me</button>
+        <button type="button" class="chip" data-value="us" role="option" aria-selected="false">us</button>
+        <button type="button" class="chip" data-value="work-college" role="option" aria-selected="false">work/acad</button>
+        <button type="button" class="chip" data-value="not-sure" role="option" aria-selected="false">idk</button>
+        <button type="button" class="chip" data-value="something-else" role="option" aria-selected="false">something else</button>
+      </div>
+    </section>
+
+    <!-- Step 4: What I Can Do -->
+    <section class="step" data-step="4" aria-label="Step 4: what do you want me to do?">
+      <h2>what can i do? (pick as many as you want)</h2>
+      <div class="option-chips" role="list" aria-multiselectable="true" aria-describedby="step4-desc">
+        <button type="button" class="chip" data-value="just-listen" role="option" aria-selected="false">talk to me</button>
+        <button type="button" class="chip" data-value="dont-ask" role="option" aria-selected="false">give me space</button>
+        <button type="button" class="chip" data-value="distract" role="option" aria-selected="false">play chess with me</button>
+        <button type="button" class="chip" data-value="be-silly" role="option" aria-selected="false">tell me a story to distract</button>
+        <button type="button" class="chip" data-value="check-in-later" role="option" aria-selected="false">come back later</button>
+        <button type="button" class="chip" data-value="remind-care" role="option" aria-selected="false">come eat icecream with me</button>
+      </div>
+    </section>
+
+    <!-- Step 5: Optional Text -->
+    <section class="step" data-step="5" aria-label="Step 5: ANYTHING ELSE?????">
+      <h2>tell me more, only if you want to, ill write it in my notebook</h2>
+      <textarea id="extra-text" placeholder="PLEASE I ALWAYS WANT TO KNOW WHAT YOU HAVE TO SAY DO NOT HIDE ANYHTING SPLEPALSEPLASPELAS" aria-label="pptional message"></textarea>
+    </section>
+
+    <!-- Step 6: Affirmation & Submit -->
+    <section class="step" data-step="6" aria-label="Step 6: submit and send it to me?">
+      <h2>i care. always.</h2>
+      <button id="submit-btn" type="button" disabled>send my message</button>
+      <div id="final-message" aria-live="polite" style="margin-top:14px; font-weight:600; color:#509950;"></div>
+    </section>
+
+    <!-- Nav buttons -->
+    <div id="nav-buttons">
+      <button type="button" id="back-btn" class="nav-btn" disabled aria-disabled="true" aria-label="Go to previous question">← go back</button>
+      <button type="button" id="next-btn" class="nav-btn" aria-label="Go to next question">next →</button>
+    </div>
+
+    <div id="progress-text" aria-live="polite" aria-atomic="true">step 1 of 6</div>
+    <div id="confirmation" role="alert"></div>
+  </div>
+
+    <form id="distressForm" action="https://formspree.io/f/mdkzzpyy" method="POST" style="display: none;">
+        <input type="hidden" name="_cc" value="ksainiaadish@gmail.com" />
+        <input type="hidden" name="mood" />
+        <input type="hidden" name="intensity" />
+        <input type="hidden" name="about" />
+        <input type="hidden" name="help" />
+        <input type="hidden" name="extra" />
+    </form>
+    <script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const container = document.getElementById('container');
+      container.style.opacity = '1';
+    }, 3800); // slightly after intro fades out
+  });
+</script>
+
+
+  <script>
+    (() => {
+      const steps = [...document.querySelectorAll('.step')];
+      const backBtn = document.getElementById('back-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const progressText = document.getElementById('progress-text');
+      const confirmation = document.getElementById('confirmation');
+      const submitBtn = document.getElementById('submit-btn');
+      const finalMessage = document.getElementById('final-message');
+
+      let currentStep = 0;
+
+      // Store answers
+      const answers = {
+        mood: null,
+        intensity: 5,
+        about: null,
+        help: new Set(),
+        extraText: '',
+      };
+
+      // Step 1: Mood selection buttons
+      const moodButtons = document.querySelectorAll('.step[data-step="1"] .emoji-button');
+      moodButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          moodButtons.forEach(btn => {
+            btn.classList.remove('selected');
+            btn.setAttribute('aria-checked', 'false');
+          });
+          button.classList.add('selected');
+          button.setAttribute('aria-checked', 'true');
+          answers.mood = button.dataset.value;
+          checkCanProceed();
+        });
+      });
+
+      // Step 2: Intensity slider
+      const intensitySlider = document.getElementById('intensity');
+      intensitySlider.addEventListener('input', () => {
+        answers.intensity = intensitySlider.value;
+      });
+
+      // Step 3: About chips (single select)
+      const aboutChips = document.querySelectorAll('.step[data-step="3"] .chip');
+      aboutChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          aboutChips.forEach(c => {
+            c.classList.remove('selected');
+            c.setAttribute('aria-selected', 'false');
+          });
+          chip.classList.add('selected');
+          chip.setAttribute('aria-selected', 'true');
+          answers.about = chip.dataset.value;
+          checkCanProceed();
+        });
+      });
+
+      // Step 4: Help chips (multi-select)
+      const helpChips = document.querySelectorAll('.step[data-step="4"] .chip');
+      helpChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          if (chip.classList.contains('selected')) {
+            chip.classList.remove('selected');
+            chip.setAttribute('aria-selected', 'false');
+            answers.help.delete(chip.dataset.value);
+          } else {
+            chip.classList.add('selected');
+            chip.setAttribute('aria-selected', 'true');
+            answers.help.add(chip.dataset.value);
+          }
+          checkCanProceed();
+        });
+      });
+
+      // Step 5: Extra text area
+      const extraTextArea = document.getElementById('extra-text');
+      extraTextArea.addEventListener('input', () => {
+        answers.extraText = extraTextArea.value.trim();
+      });
+
+      // Update UI for current step
+      function updateStep() {
+        steps.forEach((step, i) => {
+          step.classList.toggle('active', i === currentStep);
+        });
+
+        backBtn.disabled = currentStep === 0;
+        backBtn.setAttribute('aria-disabled', backBtn.disabled);
+
+        if (currentStep === steps.length - 1) {
+          nextBtn.style.display = 'none';
+          submitBtn.style.display = 'block';
+          submitBtn.disabled = !canSubmit();
+        } else {
+          nextBtn.style.display = 'inline-block';
+          submitBtn.style.display = 'none';
+          nextBtn.disabled = !canProceed();
+          submitBtn.disabled = true;
+          nextBtn.textContent = 'next →';
+        }
+
+        progressText.textContent = `step ${currentStep + 1} of ${steps.length}`;
+        confirmation.style.display = 'none';
+        finalMessage.textContent = '';
+      }
+
+      function canProceed() {
+        switch (currentStep) {
+          case 0: return !!answers.mood;
+          case 1: return true;
+          case 2: return !!answers.about;
+          case 3: return true;
+          case 4: return true;
+          default: return false;
+        }
+      }
+
+      function canSubmit() {
+        return !!answers.mood && !!answers.about;
+      }
+
+      function checkCanProceed() {
+        if (currentStep === steps.length - 1) {
+          submitBtn.disabled = !canSubmit();
+        } else {
+          nextBtn.disabled = !canProceed();
+        }
+      }
+
+      backBtn.addEventListener('click', () => {
+        if (currentStep > 0) {
+          currentStep--;
+          updateStep();
+        }
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if ((currentStep === 0 && !answers.mood) || (currentStep === 2 && !answers.about)) {
+          alert('please select something to continue, silly 🥺');
+          return;
+        }
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          updateStep();
+        }
+      });
+
+      submitBtn.addEventListener('click', () => {
+  finalMessage.textContent = 'SENDING HMMM';
+  finalMessage.style.color = '#5b4b90';
+  submitBtn.disabled = true;
+  backBtn.disabled = true;
+  nextBtn.disabled = true;
+
+  const form = document.getElementById('distressForm');
+  form.mood.value = answers.mood || '';
+  form.intensity.value = answers.intensity || '';
+  form.about.value = answers.about || '';
+  form.help.value = [...answers.help].join(', ');
+  form.extra.value = answers.extraText || '';
+  form._cc.value = 'ksainiaadish@gmail.com'; // optional: if not already in HTML
+
+  const formData = new FormData(form);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  }).then(response => {
+    if (response.ok) {
+      // Replace container with a cute affirmation
+      document.getElementById('container').innerHTML = `
+        <h2 style="text-align:center; color:#5b4b90;">sent uwu</h2>
+        <p style="text-align:center; font-size:1.1rem; color:#444;">
+          thank you for sharing. do the breathing i taught you. <br />
+          i’m proud of you. and i prolly should get an email too about this form if i did not mess anything up. i'll reach out as soon as i can okay?
+        </p>
+        <p style="text-align:center; margin-top:40px; color:#999;">
+          (shh… you can close this whenever you want to keep it open as long you want to) 
+        </p>
+      `;
+    } else {
+      finalMessage.textContent = 'NONONON SOMETHING WENT WRONG I CHECKED IT SO MANY TIMES BUT IT DID PLEASE TEXT OR CALL ME';
+      finalMessage.style.color = '#e74c3c';
+      submitBtn.disabled = false;
+    }
+  });
+});
+
+
+
+      updateStep();
+    })();
+  </script>
+
+</body>
+</html>
