@@ -1,308 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>uwu</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>where to today ananya?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
 
-  body {
-    margin: 0;
-    height: 100vh;
-    background: #121212;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #eee;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    overflow: hidden; /* keep stars inside */
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom, #1c1c2e, #3d3d5c);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #f3f3f3;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
 
-  h1 {
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 2.4rem;
-    letter-spacing: 1.5px;
-    position: relative; /* to be above stars */
-    z-index: 2;
-  }
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 40px;
+      color: #ffedf3;
+    }
 
-  #heart {
-    font-size: 6rem;
-    cursor: pointer;
-    color: #ff466c;
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
-    user-select: none;
-    position: relative;
-    z-index: 2;
-  }
+    .emoji-button {
+      font-size: 3rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      margin: 20px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      filter: drop-shadow(0 0 2px #ffffff44);
+    }
 
-  #heart:hover {
-    transform: scale(1.2);
-    text-shadow:
-      0 0 10px #7CFC00,   /* LawnGreen */
-      0 0 20px #32CD32AA, /* LimeGreen with transparency */
-      0 0 30px #228B2288; /* ForestGreen with more transparency */
-  }
+    .emoji-button:hover {
+      transform: scale(1.2);
+      opacity: 0.9;
+    }
 
-  #heart:active {
-    transform: scale(0.95);
-  }
+    .emoji-button:focus {
+      outline: none;
+    }
 
-  #message {
-    margin-top: 25px;
-    font-weight: 300;
-    font-size: 1.2rem;
-    min-height: 3.5em;
-    max-width: 360px;
-    line-height: 1.4;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    position: relative;
-    z-index: 2;
-  }
+    #footer {
+      position: absolute;
+      bottom: 16px;
+      font-size: 0.85rem;
+      opacity: 0.5;
+      color: #ccc;
+    }
 
-  #message.visible {
-    opacity: 1;
-  }
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: twinkle 6s infinite ease-in-out;
+    }
 
-  #footer {
-    margin-top: 40px;
-    font-size: 0.9rem;
-    opacity: 0.5;
-    position: relative;
-    z-index: 2;
-  }
-
-  #form {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    max-width: 320px;
-    width: 100%;
-    position: relative;
-    z-index: 2;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    background: #1e1e1e;
-    color: #fff;
-    font-size: 1rem;
-    outline: none;
-  }
-
-  input[type="text"]::placeholder {
-    color: #888;
-  }
-
-  button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #ff466c;
-    color: white;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #ff244f;
-  }
-
-  #sent {
-    font-size: 0.9rem;
-    color: #77ff99;
-    margin-top: 5px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  #sent.visible {
-    opacity: 1;
-  }
-
-  /* Star styles */
-  .star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: twinkle 3s infinite ease-in-out;
-    box-shadow: 0 0 6px 2px white;
-    z-index: 1; /* behind content */
-  }
-
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.2; }
-  }
-</style>
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 0.2; }
+    }
+  </style>
 </head>
 <body>
 
-<h1>hello ananya!!!!!! I HOPE YUORE OKAY!!!!</h1>
+  <h1>where to, uwu?</h1>
 
-<div id="heart" aria-label="click uwu" role="button" tabindex="0">🐸</div>
+  <div>
+    <a href="frog.html" aria-label="go to frog page">
+      <button class="emoji-button">🐸</button>
+    </a>
 
-<div id="message"></div>
+    <a href="distress.html" aria-label="go to comfort page">
+      <button class="emoji-button">📝</button>
+    </a>
+  </div>
 
-<form action="https://formspree.io/f/mdkzzpyy" method="POST" id="form">
-  <input type="text" name="message" placeholder="say something to me???????" required />
-  <button type="submit">Send</button>
-  <div id="sent">message sent!</div>
-</form>
+  <div id="footer">please pick fast and not be undecisive</div>
 
-<div id="footer">UWUWUWUWU😘U PRESS MY FROG UWUWWUU😘</div>
+  <script>
+    const starCount = 45;
 
-<script>
-  const messages = [
-  "youre so cute",
-  "your nose is like a mango",
-  "i like how you walk",
-  "youre so good at solving puzzles",
-  "i wish youre doing okay",
-  "YOURE SO FINE",
-  "when do i meet you next ;-;",
-  "i like your texts as much as i like seeing you if not more",
-  "what would you be if you were a vegetable????",
-  "a cute-cumber",
-  "(im sorry that was so jsandkjas)",
-
-  "youre so alive, its not nice to think so much sometimes",
-  "i would sit on the edge of your sadness just to keep you company",
-  "are you a charger? because without you i die",
-  "every time you hesitate before saying something, i wish you knew you’re always safe with me",
-  "you make my silence even better smh",
-  "i like it SO MUCH when you laugh",
-  "i hope you tetx me more",
-  "i saw your pinterst hahahahhhaha",
-  "you saying 'lick me' still scares me sometimes",
-  "if you were a file, you’d be called ananya.exe and crash all my logic",
-  "I ABSOLUTELY LIKE YOUR COWBOY SO MUCH :PRAY:",
-  "if you were a browser tab, i’d never close you",
-  "i wish you saw yourself the way i do when you’re just being you — honest, brilliant, wannabe16",
-  "i want to play ludo with you",
-  "do you have a name or can I call you mine?",
-  "the moon gets jealous when you hug me",
-  "you smile and i forget how to spell my name but everything else starts to make sense",
-  "please tell me anything you want to tell me.",
-  "are you an angle? because you’re acute one",
-  "if you were a fruit, you'd be a fineapple. if i was a vegetable, i’d be depressed without you.",
-  "i like your hands more than i should",
-  "i really like the idea of growing together.",
-  "send selfie. it's for science.",
-  "i will always be there for you. even if you hurt me.",
-  "i like you even more when youre being difficult",
-  "do you like kishmish? how do you feel about a date tho",
-  "you’re the only person i’d share my icecreams with. and maybe my passwords.",
-  "i like the scar thingy(?) on your leg",
-  "you couldve just told me you miss playing bullets with me ;-;",
-  "i hope you never forget me.",
-  "will i never see your parents again :skull:",
-  "are you pinterest, because i have all my interest pinned in you",
-  "I LISTENED TO AAKASHVANI TODAY AHHAHAHAHAHA",
-  "are you a banana? because i find you a-peeling",
-  "if i should follow my dreams, can i follow you home next time?????",
-  "i could always listen to you than bear your silence.",
-  "you have shaped me as a person more than you can imagine.",
-  "i think if you were to punch me, it would hurt, but like, happily",
-  "i like your soft voice too",
-  "i hope we both have enough time.",
-  "when are we watchng obs :pray:",
-  "i really miss some days, the painting one, the final destination one, THE COWBOY",
-  "when we first kissed, i was so LOST(?) I REALISED WHAT I WAS DOING AFTER 5 MINUTES",
-  "i still remember the first day when you wer being so idk smh",
-  "are you a loan from a bank? because you got my interest.",
-  "im grateful for you."
-];
-
-
-
-  const heart = document.getElementById('heart');
-  const message = document.getElementById('message');
-  const sent = document.getElementById('sent');
-  const form = document.getElementById('form');
-
-  let index = 0;
-  let timeoutId = null;
-
-  function showMessage() {
-    message.textContent = messages[index];
-    message.classList.add('visible');
-
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      message.classList.remove('visible');
-    }, 8000);
-
-    index = (index + 1) % messages.length;
-  }
-
-  heart.addEventListener('click', showMessage);
-  heart.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      showMessage();
+    function createStar() {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (Math.random() * 4 + 4) + 's';
+      star.style.width = star.style.height = Math.random() * 2 + 1 + 'px';
+      document.body.appendChild(star);
     }
-  });
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (response.ok) {
-        sent.classList.add('visible');
-        form.reset();
-        setTimeout(() => {
-          sent.classList.remove('visible');
-        }, 2000);
-      } else {
-        sent.textContent = "Something went wrong.";
-        sent.style.color = "#ff7272";
-        sent.classList.add('visible');
-      }
-    });
-  });
-
-  // Star animation code
-  const starCount = 50;
-
-  function createStar() {
-    const star = document.createElement('div');
-    star.classList.add('star');
-    const size = Math.random() * 3 + 1; // 1-4px
-    star.style.width = size + 'px';
-    star.style.height = size + 'px';
-    star.style.top = Math.random() * 100 + 'vh';
-    star.style.left = Math.random() * 100 + 'vw';
-    star.style.animationDuration = (Math.random() * 2 + 1) + 's';
-    star.style.animationDelay = Math.random() * 5 + 's';
-    document.body.appendChild(star);
-  }
-
-  for (let i = 0; i < starCount; i++) {
-    createStar();
-  }
-</script>
-
+    for (let i = 0; i < starCount; i++) {
+      createStar();
+    }
+  </script>
 </body>
 </html>
