@@ -107,7 +107,6 @@
     }
 
     input[type=range] {
-      -webkit-appearance: none;
       width: 100%;
       height: 12px;
       border-radius: 7px;
@@ -334,6 +333,65 @@
   transition: opacity 1s ease;
 }
 
+#music-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+#music-area {
+  position: relative;
+  padding: 12px; /* gives buffer */
+}
+
+#music-toggle-hover {
+  background: rgba(250,250,250,0.95);
+  border: 2px solid #b0aee0;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #2b2541;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+#music-controls {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+  transition: all 0.3s ease;
+  background: rgba(250,250,250,0.95);
+  border: 2px solid #b0aee0;
+  border-radius: 20px;
+  padding: 10px 16px;
+  box-shadow: 0 6px 20px #aaa;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 180px;
+  color: #2b2541;
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+}
+
+/* Make the buffer area trigger the controls */
+#music-area:hover #music-controls {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
 
 
   </style>
@@ -365,50 +423,91 @@
 
     <section class="step" data-step="2" aria-label="Step 2: how much?">
       <h2>how heavy is it? slide me →</h2>
+      <p style="text-align:center; margin-top: 8px; color: #444;">how heavy does this feel right now?</p>
       <div class="slider-container">
+
         <input type="range" id="intensity" name="intensity" min="0" max="10" step="1" value="5" aria-valuemin="0" aria-valuemax="10" aria-valuenow="5" aria-label="Intensity slider" />
         <div class="slider-labels">
-          <span>tiny sting</span>
-          <span>a lot</span>
-          <span>too much</span>
-        </div>
+  <span>i’m okay</span>
+  <span>hurts a bit</span>
+  <span>hurts a lot</span>
+  <span>can’t take this</span>
+</div>
+
       </div>
+      <div id="slider-value" style="margin-top: 8px; text-align: center; color: #666; font-weight: 600;">
+  current level: 5
+</div>
     </section>
 
-    <section class="step" data-step="3" aria-label="Step 3: what is this about?">
-      <h2>what does this relate to?</h2>
-      <div class="option-chips" role="list" aria-multiselectable="false" aria-describedby="step3-desc">
-        <button type="button" class="chip" data-value="communication" role="option" aria-selected="false">Communication</button>
-        <button type="button" class="chip" data-value="us" role="option" aria-selected="false">YOU</button>
-        <button type="button" class="chip" data-value="myself" role="option" aria-selected="false">me</button>
-        <button type="button" class="chip" data-value="us" role="option" aria-selected="false">us</button>
-        <button type="button" class="chip" data-value="work-college" role="option" aria-selected="false">work/acad/college</button>
-        <button type="button" class="chip" data-value="not-sure" role="option" aria-selected="false">idk</button>
-        <button type="button" class="chip" data-value="something-else" role="option" aria-selected="false">something else</button>
-      </div>
-    </section>
-    <section class="step" data-step="4" aria-label="Step 4: what do you want me to do?">
-      <h2>what can i do? (pick as many as you want)</h2>
-      <div class="option-chips" role="list" aria-multiselectable="true" aria-describedby="step4-desc">
-        <button type="button" class="chip" data-value="just-listen" role="option" aria-selected="false">talk to me</button>
-        <button type="button" class="chip" data-value="dont-ask" role="option" aria-selected="false">give me space</button>
-        <button type="button" class="chip" data-value="distract" role="option" aria-selected="false">play chess with me</button>
-        <button type="button" class="chip" data-value="be-silly" role="option" aria-selected="false">tell me a story to distract</button>
-        <button type="button" class="chip" data-value="check-in-later" role="option" aria-selected="false">come back later</button>
-        <button type="button" class="chip" data-value="remind-care" role="option" aria-selected="false">come eat icecream with me</button>
-      </div>
-    </section>
 
-    <section class="step" data-step="5" aria-label="Step 5: ANYTHING ELSE?????">
-      <h2>tell me more, only if you want to, ill write it in my notebook</h2>
-      <textarea id="extra-text" placeholder="PLEASE I ALWAYS WANT TO KNOW WHAT YOU HAVE TO SAY DO NOT HIDE ANYHTING SPLEPALSEPLASPELAS" aria-label="pptional message"></textarea>
-    </section>
+    <section class="step" data-step="3" aria-label="Step 3: tiny check-in game">
+    <h2>yes/no</h2>
+    <p style="text-align:center; color:#555; font-size:0.95rem; margin-bottom: 10px;">
+      answer as much as you want. you can skip too.
+    </p>
+    <div id="question-box" style="text-align:center; font-size:1.15rem; font-weight:600; color:#333; margin: 20px 0; min-height: 70px;">
+      loading question...
+    </div>
+    <div style="text-align:center; display:flex; justify-content:center; gap: 24px;">
+      <button class="nav-btn" id="yes-btn">yes</button>
+      <button class="nav-btn" id="no-btn">no</button>
+      <button class="nav-btn" id="skip-btn">skip</button>
+    </div>
+    <div id="question-progress" style="text-align:center; color:#888; font-size:0.9rem; margin-top:18px;"></div>
 
-    <section class="step" data-step="6" aria-label="Step 6: submit and send it to me?">
-      <h2>i care. always.</h2>
-      <button id="submit-btn" type="button" disabled>send my message</button>
-      <div id="final-message" aria-live="polite" style="margin-top:14px; font-weight:600; color:#509950;"></div>
-    </section>
+  </section>
+
+
+
+    <section class="step" data-step="4" aria-label="Step 4: what is this about?">
+  <h2>what’s this about?</h2>
+  <div class="option-chips" role="list" aria-multiselectable="false" aria-describedby="step3-desc">
+    <button type="button" class="chip" data-value="me" role="option" aria-selected="false">me (idk what’s wrong exactly)</button>
+    <button type="button" class="chip" data-value="you" role="option" aria-selected="false">you</button>
+    <button type="button" class="chip" data-value="us" role="option" aria-selected="false">us</button>
+    <button type="button" class="chip" data-value="life" role="option" aria-selected="false">life in general</button>
+    <button type="button" class="chip" data-value="college" role="option" aria-selected="false">college/work/etc</button>
+    <button type="button" class="chip" data-value="family" role="option" aria-selected="false">family</button>
+    <button type="button" class="chip" data-value="not-sure" role="option" aria-selected="false">i don’t even know</button>
+  </div>
+</section>
+
+    <section class="step" data-step="5" aria-label="Step 5: what do you want me to do?">
+  <h2>what should i do now?</h2>
+  <p style="text-align:center; margin-bottom: 12px; color:#555; font-size:0.95rem;">
+    (you can choose more than one, or skip if you're unsure)
+  </p>
+  <div class="option-chips" role="list" aria-multiselectable="true" aria-describedby="step4-desc">
+    <button type="button" class="chip" data-value="just-listen" role="option" aria-selected="false">just listen</button>
+    <button type="button" class="chip" data-value="space" role="option" aria-selected="false">give me space</button>
+    <button type="button" class="chip" data-value="ask-later" role="option" aria-selected="false">check on me later</button>
+    <button type="button" class="chip" data-value="distract" role="option" aria-selected="false">distract me</button>
+    <button type="button" class="chip" data-value="chess" role="option" aria-selected="false">play chess with me</button>
+    <button type="button" class="chip" data-value="tell-story" role="option" aria-selected="false">tell me a story</button>
+    <button type="button" class="chip" data-value="reassure" role="option" aria-selected="false">remind me you care</button>
+  </div>
+</section>
+
+
+    <section class="step" data-step="6" aria-label="Step 6: anything else you want to say?">
+  <h2>is there anything else you want to say?</h2>
+  <p style="text-align:center; margin-bottom: 12px; font-size: 0.95rem; color: #555;">
+    (i’ll read it gently. take your time, or skip this if you're not ready)
+  </p>
+  <textarea id="extra-text" placeholder="you can type anything here. anything at all. i’m listening." aria-label="optional message"></textarea>
+</section>
+
+
+    <section class="step" data-step="7" aria-label="Step 7: ready to send?">
+  <h2>i'm here. always will be.</h2>
+  <p style="text-align:center; font-size: 0.95rem; color: #555;">
+    when you’re ready, send this to me. i’ll read it gently, okay?
+  </p>
+  <button id="submit-btn" type="button" disabled>send it to you</button>
+  <div id="final-message" aria-live="polite" style="margin-top:14px; font-weight:600; color:#509950;"></div>
+</section>
+
 
     <div id="nav-buttons">
       <button type="button" id="back-btn" class="nav-btn" disabled aria-disabled="true" aria-label="Go to previous question">← go back</button>
@@ -419,14 +518,42 @@
     <div id="confirmation" role="alert"></div>
   </div>
 
-    <form id="distressForm" action="https://formspree.io/f/mnnvlpdy" method="POST" style="display: none;">
-        <input type="hidden" name="_cc" value="ksainiaadish@gmail.com" />
-        <input type="hidden" name="mood" />
-        <input type="hidden" name="intensity" />
-        <input type="hidden" name="about" />
-        <input type="hidden" name="help" />
-        <input type="hidden" name="extra" />
-    </form>
+    <form id="distressForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSf7weW-qXXWPYUB5GXVIpW-FhKsazBkH02hqQ5sQNt0ZBEPSw/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true" style="display:none;">
+  <input type="hidden" name="entry.324227002" /> <!-- extra -->
+  <input type="hidden" name="entry.755132614" /> <!-- mood -->
+  <input type="hidden" name="entry.806743149" /> <!-- intensity -->
+  <input type="hidden" name="entry.1556674368" /> <!-- what is this about -->
+  <input type="hidden" name="entry.1833823895" /> <!-- what can i do -->
+  <input type="hidden" name="entry.2004260739" /> <!-- yesno summary -->
+</form>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <audio id="flirtyMusic" loop>
+  <source src="./forever yours - is it sunday.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="meSinging" loop>
+  <source src="./WhatsApp Audio 2025-06-29 at 9.27.51 PM.mpga" type="audio/mpeg">
+</audio>
+
+<div id="music-wrapper">
+  <div id="music-area">
+    <div id="music-toggle-hover">🎵</div>
+    <div id="music-controls">
+      <div id="music-toggle" style="cursor: pointer; font-weight: 600; text-align: center; width: 100%;">🎵 Music: off</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <span style="font-weight: 600;">Volume</span>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.6" style="width: 90px;" />
+      </div>
+      <div id="track-switch" style="cursor: pointer; font-weight: 600; text-align: center; width: 100%;">
+        Press To Switch Track
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     <script>
   window.addEventListener('load', () => {
     setTimeout(() => {
@@ -438,6 +565,8 @@
 
 
   <script>
+
+    let currentStep = 0;
     (() => {
       const steps = [...document.querySelectorAll('.step')];
       const backBtn = document.getElementById('back-btn');
@@ -447,7 +576,6 @@
       const submitBtn = document.getElementById('submit-btn');
       const finalMessage = document.getElementById('final-message');
 
-      let currentStep = 0;
 
       const answers = {
         mood: null,
@@ -474,9 +602,10 @@
       const intensitySlider = document.getElementById('intensity');
       intensitySlider.addEventListener('input', () => {
         answers.intensity = intensitySlider.value;
+        document.getElementById('slider-value').textContent = `current level: ${intensitySlider.value}`;
       });
 
-      const aboutChips = document.querySelectorAll('.step[data-step="3"] .chip');
+      const aboutChips = document.querySelectorAll('.step[data-step="4"] .chip');
       aboutChips.forEach(chip => {
         chip.addEventListener('click', () => {
           aboutChips.forEach(c => {
@@ -490,7 +619,7 @@
         });
       });
 
-      const helpChips = document.querySelectorAll('.step[data-step="4"] .chip');
+      const helpChips = document.querySelectorAll('.step[data-step="5"] .chip');
       helpChips.forEach(chip => {
         chip.addEventListener('click', () => {
           if (chip.classList.contains('selected')) {
@@ -540,15 +669,16 @@
         switch (currentStep) {
           case 0: return !!answers.mood;
           case 1: return true;
-          case 2: return !!answers.about;
+          case 2: return true;
           case 3: return true;
           case 4: return true;
+          case 5: return true; 
           default: return false;
         }
       }
 
       function canSubmit() {
-        return !!answers.mood && !!answers.about;
+        return !!answers.mood;
       }
 
       function checkCanProceed() {
@@ -567,15 +697,17 @@
       });
 
       nextBtn.addEventListener('click', () => {
-        if ((currentStep === 0 && !answers.mood) || (currentStep === 2 && !answers.about)) {
-          alert('please select something to continue, silly 🥺');
-          return;
-        }
-        if (currentStep < steps.length - 1) {
-          currentStep++;
-          updateStep();
-        }
-      });
+  if (currentStep === 0 && !answers.mood) {
+    alert('please select something to continue, silly 🥺');
+    return;
+  }
+
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    updateStep();
+  }
+});
+
 
       submitBtn.addEventListener('click', () => {
   finalMessage.textContent = 'SENDING HMMM';
@@ -584,13 +716,23 @@
   backBtn.disabled = true;
   nextBtn.disabled = true;
 
-  const form = document.getElementById('distressForm');
-  form.mood.value = answers.mood || '';
-  form.intensity.value = answers.intensity || '';
-  form.about.value = answers.about || '';
-  form.help.value = [...answers.help].join(', ');
-  form.extra.value = answers.extraText || '';
-  form._cc.value = 'ksainiaadish@gmail.com'; 
+  // ✅ DYNAMICALLY ADD YES/NO QUESTION ANSWERS
+const form = document.getElementById('distressForm');
+
+[...form.querySelectorAll('[data-dynamic]')].forEach(el => el.remove());
+form.querySelector('[name="entry.755132614"]').value = answers.mood || ''; // mood
+form.querySelector('[name="entry.806743149"]').value = answers.intensity || ''; // intensity
+form.querySelector('[name="entry.1556674368"]').value = answers.about || ''; // what is this about
+form.querySelector('[name="entry.1833823895"]').value = [...answers.help].join(', '); // what can i do
+form.querySelector('[name="entry.324227002"]').value = answers.extraText || ''; // extra
+form.querySelector('[name="entry.2004260739"]').value = responses.map(r => `${r.q} => ${r.a}`).join(' | ') || ''; // yes/no
+const input = document.createElement('input');
+input.type = 'hidden';
+input.name = 'yes_no_summary';
+input.value = yesNoSummary;
+input.setAttribute('data-dynamic', '');
+form.appendChild(input);
+
 
   const formData = new FormData(form);
 
@@ -622,9 +764,129 @@
 
 
 
+
       updateStep();
     })();
+
+    (() => {
+  const flirty = document.getElementById('flirtyMusic');
+  const me = document.getElementById('meSinging');
+  const toggle = document.getElementById('music-toggle');
+  const volumeSlider = document.getElementById('volume-slider');
+  const trackSwitch = document.getElementById('track-switch');
+
+  let isPlaying = false;
+  let currentTrack = 'me';
+
+  const getTrack = () => currentTrack === 'flirty' ? flirty : me;
+  const stopAll = () => { flirty.pause(); me.pause(); };
+
+  // Update toggle text
+  const updateToggle = () => {
+    toggle.textContent = isPlaying
+      ? `🎵 playing: ${currentTrack === 'flirty' ? 'f l i r t y' : 'me music'}`
+      : `🎵 music: off`;
+  };
+
+  toggle.addEventListener('click', () => {
+    if (!isPlaying) {
+      getTrack().play();
+    } else {
+      stopAll();
+    }
+    isPlaying = !isPlaying;
+    updateToggle();
+  });
+
+  trackSwitch.addEventListener('click', () => {
+    stopAll();
+    currentTrack = currentTrack === 'flirty' ? 'me' : 'flirty';
+    isPlaying = false;
+    updateToggle();
+  });
+
+  volumeSlider.addEventListener('input', () => {
+    const vol = parseFloat(volumeSlider.value);
+    flirty.volume = vol;
+    me.volume = vol;
+  });
+
+  // Set initial volume
+  flirty.volume = volumeSlider.value;
+  me.volume = volumeSlider.value;
+
+  updateToggle();
+})();
+
+  const responses = [];
+(() => {
+  const yesBtn = document.getElementById('yes-btn');
+  const noBtn = document.getElementById('no-btn');
+  const skipBtn = document.getElementById('skip-btn');
+  const qBox = document.getElementById('question-box');
+  const qProg = document.getElementById('question-progress');
+  const questions = [
+  "did i cause this?",
+  "do you want to cry?",
+  "will you be fine?",
+  "did something recent cause this?",
+  "are you tired?",
+  "do you want me to check in on you later at night?",
+  "are you overwhelmed about anything?",
+  "do you wish someone could just understand without explaining?",
+  "are you feeling misunderstood today?",
+  "did something/someone trigger this specifically?",
+  "are you holding back something you want to say?",
+  "did you sleep well last night?",
+  "did you eat something nice today?",
+  "have you had enough water?",
+  "do you feel safe right now?",
+  "do you wish you were somewhere else?",
+  "do you feel like you're being too hard on yourself?",
+  "would it help if someone just sat with you quietly?",
+  "do you want a distraction right now?",
+  "would you like to talk about it?",
+  "do you want a hug?",
+  "do you want me to just listen?",
+  "do you want me to stay close, even if we don’t talk?"
+];
+
+
+  let currentQ = 0;
+
+  function showQuestion(index) {
+    if (index >= questions.length) {
+      qBox.innerHTML = "thank you for telling me";
+      yesBtn.style.display = 'none';
+      noBtn.style.display = 'none';
+      qProg.textContent = "you answered all questions";
+      return;
+    }
+    qBox.textContent = `❝ ${questions[index]} ❞`;
+    qProg.textContent = `question ${index + 1} of ${questions.length}`;
+  }
+
+  yesBtn.addEventListener('click', () => {
+    responses.push({ q: questions[currentQ], a: 'yes' });
+    currentQ++;
+    showQuestion(currentQ);
+  });
+  noBtn.addEventListener('click', () => {
+    responses.push({ q: questions[currentQ], a: 'no' });
+    currentQ++;
+    showQuestion(currentQ);
+  });
+  skipBtn.addEventListener('click', () => {
+  responses.push({ q: questions[currentQ], a: 'skipped' });
+  currentQ++;
+  showQuestion(currentQ);
+  });
+  showQuestion(currentQ);
+})();
+
+
   </script>
+
 
 </body>
 </html>
