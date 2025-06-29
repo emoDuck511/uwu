@@ -726,10 +726,11 @@ form.querySelector('[name="entry.1556674368"]').value = answers.about || ''; // 
 form.querySelector('[name="entry.1833823895"]').value = [...answers.help].join(', '); // what can i do
 form.querySelector('[name="entry.324227002"]').value = answers.extraText || ''; // extra
 form.querySelector('[name="entry.2004260739"]').value = responses.map(r => `${r.q} => ${r.a}`).join(' | ') || ''; // yes/no
+
 const input = document.createElement('input');
 input.type = 'hidden';
 input.name = 'yes_no_summary';
-input.value = yesNoSummary;
+input.value = responses.map(r => `${r.q}: ${r.a}`).join(' | ');
 input.setAttribute('data-dynamic', '');
 form.appendChild(input);
 
