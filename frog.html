@@ -157,15 +157,19 @@
 
 <div id="message"></div>
 
-<form action="
-Request URL
-https://docs.google.com/forms/u/0/d/e/1FAIpQLSdXrXas4V8t754Z9Q1HHFCHaHjAOsvh0jRuMVpwVAGx81Zyww/formResponse" method="POST" id="form">
-  
+<form 
+  action="https://docs.google.com/forms/d/e/1FAIpQLSdXrXas4V8t754Z9Q1HHFCHaHjAOsvh0jRuMVpwVAGx81Zyww/formResponse" 
+  method="POST" 
+  target="hidden_iframe" 
+  id="form"
+>
   <input name="entry.1477061669" placeholder="say something to me???????" required />
-  
   <button type="submit">Send</button>
   <div id="sent">message sent!</div>
 </form>
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
 
 
 <div id="footer">UWUWUWUWU😘U PRESS MY FROG UWUWWUU😘</div>
@@ -260,30 +264,12 @@ https://docs.google.com/forms/u/0/d/e/1FAIpQLSdXrXas4V8t754Z9Q1HHFCHaHjAOsvh0jRu
     }
   });
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  document.getElementById('form').addEventListener('submit', function () {
+  const sent = document.getElementById('sent');
+  sent.classList.add('visible');
+  setTimeout(() => sent.classList.remove('visible'), 2000);
+});
 
-    const formData = new FormData(form);
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (response.ok) {
-        sent.classList.add('visible');
-        form.reset();
-        setTimeout(() => {
-          sent.classList.remove('visible');
-        }, 2000);
-      } else {
-        sent.textContent = "Something went wrong.";
-        sent.style.color = "#ff7272";
-        sent.classList.add('visible');
-      }
-    });
-  });
 
   const starCount = 50;
 
